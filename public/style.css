@@ -1,0 +1,46 @@
+/* colors: #f56f6c; #65aaaf; #c7c4d5;*/
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #312f3c;
+    background: url("/img/bg.jpg") no-repeat;
+    background-position: center top;
+    background-size: 100% auto;
+}
+
+.register-form {
+    position: absolute;
+    content: "";
+    top: calc(50% - 250px);
+    left: calc(50% - 200px);
+    width: 400px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 2px solid #4138e0;
+    background: rgba(18, 17, 35, 0.5);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form input {
+    border: 2px solid #4138e0;
+    background-color: transparent;
+    padding-left: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    color: #fff;
+    height: 50px;
+    width: 300px;
+    border-radius: 3px;
+}
+
+.register-form button {
+    border: none;
+    margin: 0 auto;
+    background-color: #4138e0;
+    width: 320px;
+    height: 50px;
+    color: #fff;
+}

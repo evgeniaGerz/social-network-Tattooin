@@ -1,13 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Welcome from "./welcome";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
+// <HelloWorld /> is a component
+ReactDOM.render(<Welcome />, document.querySelector("main"));
 
+// component <HelloWorld /> is invoked here
 function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
+    return <div>Hello, World!</div>;
+}
+
+let elem;
+
+if (location.pathname == "/welcome") {
+    //user is logged in
+    elem = <Welcome />;
+} else {
+    //user is not logged in
+    elem = <img src="logo.gif" />;
 }
