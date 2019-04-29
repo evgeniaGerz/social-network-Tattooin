@@ -1,4 +1,10 @@
-/* colors: #f56f6c; #65aaaf; #c7c4d5;*/
+/* colors: #f56f6c; #65aaaf; #c7c4d5;
+
+font-family: 'Alfa Slab One', cursive;
+
+
+
+*/
 
 body {
     margin: 0;
@@ -7,13 +13,39 @@ body {
     background: url("/img/bg.jpg") no-repeat;
     background-position: center top;
     background-size: 100% auto;
+    font-family: "Alfa Slab One", cursive;
+    font-family: "Exo 2", sans-serif;
 }
 
-.register-form {
+h1 {
+    font-family: "Alfa Slab One", cursive;
+    font-size: 30px;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #f56f6c;
+}
+
+h2 {
+    font-family: "Exo 2", sans-serif;
+    font-weight: 100;
+    font-size: 20px;
+    color: #c7c4d5;
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+.error {
+    color: #f56f6c;
+}
+
+/* ---------------- REGISTER FORM --------- */
+
+.register-form,
+.login-form {
     position: absolute;
     content: "";
     top: calc(50% - 250px);
-    left: calc(50% - 200px);
+    left: calc(50% - 230px);
     width: 400px;
     margin: 0 auto;
     padding: 30px;
@@ -24,7 +56,8 @@ body {
     flex-direction: column;
 }
 
-.register-form input {
+.register-form input,
+.login-form input {
     border: 2px solid #4138e0;
     background-color: transparent;
     padding-left: 10px;
@@ -36,11 +69,145 @@ body {
     border-radius: 3px;
 }
 
-.register-form button {
+.register-form input:hover,
+.register-form input:focus,
+.login-form input:hover,
+.login-form input:focus {
+    border: 2px solid #65aaaf;
+}
+
+.register-form button,
+.login-form button {
     border: none;
     margin: 0 auto;
     background-color: #4138e0;
     width: 320px;
     height: 50px;
     color: #fff;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.register-form button:hover,
+.register-form button:focus,
+.login-form button:hover,
+.login-form button:focus {
+    background-color: #65aaaf;
+}
+
+.register-form p {
+    text-align: center;
+    color: #65aaaf;
+}
+
+.login-link,
+.logout-link {
+    color: #65aaaf;
+    font-family: "Exo 2", sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    border-bottom: 2px solid #65aaaf;
+}
+
+.logout-link {
+    display: inline;
+}
+
+/* ---------------- HEADER --------- */
+
+.header {
+    box-sizing: border-box;
+    border-bottom: 2px solid #f56f6c;
+    display: flex;
+    justify-content: space-between;
+    margin: 40px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #f56f6c;
+    border-radius: 10px;
+}
+
+.logo img {
+    position: ;
+}
+
+.profilepic {
+    width: 84px;
+    height: 84px;
+    overflow: hidden;
+}
+
+.profilepic:hover,
+.profilepic:focus {
+    outline: 2px solid #f56f6c;
+}
+
+.profilepic:active {
+    opacity: 0.5;
+}
+
+.user-name {
+    color: #c7c4d5;
+    font-family: "Exo 2", sans-serif;
+    font-family: 300;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+/* ---------------- LOGIN FORM --------- */
+.login-form {
+    text-align: center;
+}
+
+/* ---------------- UPLOAD PROFILE MODAL --------- */
+.uploader {
+    position: absolute;
+    content: "";
+    top: 200px;
+    width: 600px;
+    left: calc(50% - 330px);
+    border-radius: 10px;
+    border: 2px solid #4138e0;
+    background: rgba(18, 17, 35, 0.5);
+    padding: 30px;
+    text-align: center;
+}
+
+.uploader input {
+    border: 2px solid #4138e0;
+    background-color: transparent;
+    padding-left: 10px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    color: #fff;
+    height: 50px;
+    width: 300px;
+    border-radius: 3px;
+}
+.uploader input:hover,
+.uploader input:focus {
+    border: 2px solid #65aaaf;
+}
+
+.uploader button {
+    border: none;
+    display: block;
+    margin: 0 auto;
+    background-color: #4138e0;
+    width: 320px;
+    height: 50px;
+    color: #fff;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.uploader button:hover,
+.uploader button:focus {
+    background-color: #65aaaf;
 }
