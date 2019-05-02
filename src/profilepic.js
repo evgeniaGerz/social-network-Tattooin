@@ -9,10 +9,6 @@ export default function ProfilePic({ users_pic, first, last, clickHandler }) {
                 height="84"
                 alt={first}
             />
-            <p className="user-name">
-                {first} <br />
-                {last}
-            </p>
         </div>
     );
 }

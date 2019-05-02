@@ -94,6 +94,8 @@ app.post("/register", (req, res) => {
     });
 });
 
+// ---------------- LOGIN PAGE ---------
+
 app.post("/login", (req, res) => {
     console.log("req.session.user: ", req.session.user);
     db.getUser(req.body.email).then(data => {
@@ -114,6 +116,8 @@ app.post("/login", (req, res) => {
     });
 });
 
+// ---------------- PROFILE PAGE ---------
+
 app.get("/user", (req, res) => {
     db.getUserProfile(req.session.user.id).then(data => {
         console.log("data in getUserProfile: ", data);
@@ -121,10 +125,24 @@ app.get("/user", (req, res) => {
             id: data.rows[0].id,
             first: data.rows[0].first,
             last: data.rows[0].last,
-            users_pic: data.rows[0].users_pic
+            users_pic: data.rows[0].users_pic,
+            bio: data.rows[0].bio
         });
     });
 });
+
+// ---------------- OTHER PROFILES ---------
+
+app.get("/user/:id/anything", function(req, res) {
+    // the route should be named different
+    if (req.params.id == req.session.user.id) {
+        res.json({
+            redirect: true
+        });
+    }
+});
+
+// ---------------- UPLOAD PROFILE PICTURE ---------
 
 app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     const url = config.s3Url + req.file.filename;
@@ -143,6 +161,18 @@ app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     } else {
         res.json({ success: false });
     }
+});
+
+// ---------------- EDIT BIO IN PROFILE ---------
+app.post("/editBio", (req, res) => {
+    db.updateBio(req.session.user.id, req.body.bio)
+        .then(data => {
+            console.log("data in updateBio: ", data); // empty array rows[]
+            res.json(data.rows[0]);
+        })
+        .catch(err => {
+            console.log("error in updateBio: ", err);
+        });
 });
 
 app.get("/logout", (req, res) => {

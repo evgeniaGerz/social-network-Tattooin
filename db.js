@@ -25,12 +25,18 @@ exports.getUser = function getUser(email) {
 };
 
 exports.getUserProfile = function getUserProfile(id) {
-    let q = `SELECT id, first, last, users_pic FROM users WHERE id = $1`;
+    let q = `SELECT id, first, last, users_pic, bio FROM users WHERE id = $1`;
     return db.query(q, [id]);
 };
 
 exports.updateUserPic = function updateUserPic(id, users_pic) {
     let q = `UPDATE users SET users_pic = $2 WHERE id = $1`;
     let params = [id, users_pic];
+    return db.query(q, params);
+};
+
+exports.updateBio = function updateBio(id, bio) {
+    let q = `UPDATE users SET bio = $2 WHERE id = $1`;
+    let params = [id, bio];
     return db.query(q, params);
 };

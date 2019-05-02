@@ -43,21 +43,27 @@ h2 {
 .register-form,
 .login-form {
     position: absolute;
+    box-sizing: border-box;
     content: "";
-    top: calc(50% - 250px);
-    left: calc(50% - 230px);
-    width: 400px;
+    top: 150px;
+    left: calc(50% - 400px);
+    width: 800px;
+    height: 500px;
     margin: 0 auto;
-    padding: 30px;
     border: 2px solid #4138e0;
     background: rgba(18, 17, 35, 0.5);
     border-radius: 10px;
     display: flex;
-    flex-direction: column;
+    box-shadow: 10px 10px 16px -4px rgba(18, 17, 35, 0.66);
 }
 
-.register-form input,
+.login-form .light-side {
+    padding-top: 40px;
+}
+
+.light-side input,
 .login-form input {
+    box-sizing: border-box;
     border: 2px solid #4138e0;
     background-color: transparent;
     padding-left: 10px;
@@ -67,50 +73,128 @@ h2 {
     height: 50px;
     width: 300px;
     border-radius: 3px;
+    display: block;
 }
 
-.register-form input:hover,
-.register-form input:focus,
+.light-side input:hover,
+.light-side input:focus,
 .login-form input:hover,
 .login-form input:focus {
-    border: 2px solid #65aaaf;
+    border: 2px solid #f56f6c;
 }
 
-.register-form button,
+.light-side button,
 .login-form button {
+    display: block;
+    box-sizing: border-box;
     border: none;
     margin: 0 auto;
     background-color: #4138e0;
-    width: 320px;
+    width: 300px;
     height: 50px;
     color: #fff;
     border-radius: 3px;
     margin-bottom: 20px;
 }
 
-.register-form button:hover,
-.register-form button:focus,
+.light-side button:hover,
+.light-side button:focus,
 .login-form button:hover,
 .login-form button:focus {
-    background-color: #65aaaf;
-}
-
-.register-form p {
-    text-align: center;
-    color: #65aaaf;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #4138e0;
 }
 
 .login-link,
 .logout-link {
-    color: #65aaaf;
+    box-sizing: border-box;
+    color: #4138e0;
     font-family: "Exo 2", sans-serif;
     font-size: 16px;
     text-decoration: none;
-    border-bottom: 2px solid #65aaaf;
+    text-transform: uppercase;
+    border: 2px solid #4138e0;
+    border-radius: 3px;
+    padding: 8px;
+    display: block;
+    width: 220px;
+    height: 50px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.login-link:hover,
+.login-link:focus {
+    border: 2px solid #f56f6c;
+}
+
+.login-link:hover,
+.login-link:focus {
+    border: 2px solid #f56f6c;
+    background-color: rgba(18, 17, 35, 0.5);
+    color: #c7c4d5;
 }
 
 .logout-link {
     display: inline;
+}
+
+.dark-side,
+.light-side {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.dark-side h2,
+.light-side h2,
+.bioEditor-container h2 {
+    font-family: "Alfa Slab One", cursive;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #f56f6c;
+}
+
+.login-form .dark-side {
+    border-right: none;
+    border-left: 2px solid #4138e0;
+}
+
+.dark-side {
+    width: 45%;
+    background-color: #121123;
+    border-right: 2px solid #4138e0;
+    padding: 100px 50px 40px 50px;
+    line-height: 2;
+    text-align: center;
+}
+
+.light-side {
+    width: 55%;
+    padding: 30px 50px 20px 50px;
+}
+
+.dark-side .logo,
+.light-side .logo {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #f56f6c;
+    border-radius: 5px;
+    position: absolute;
+    content: "";
+    top: 15px;
+    left: 15px;
+}
+
+.dark-side p {
+    color: #c7c4d5;
+    margin-bottom: 40px;
+}
+
+.logo-small {
+    width: 30px;
+    height: 30px;
 }
 
 /* ---------------- HEADER --------- */
@@ -155,8 +239,29 @@ h2 {
     color: #c7c4d5;
     font-family: "Exo 2", sans-serif;
     font-family: 300;
-    font-size: 24px;
-    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.light-side .bio-field {
+    box-sizing: border-box;
+    border: 2px solid #4138e0;
+    background-color: #c7c4d5;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    color: #4138e0;
+    height: 80px;
+    width: 300px;
+    border-radius: 3px;
+}
+
+.bio-text {
+    color: #c7c4d5;
+    text-align: center;
 }
 
 /* ---------------- LOGIN FORM --------- */
@@ -210,4 +315,60 @@ h2 {
 .uploader button:hover,
 .uploader button:focus {
     background-color: #65aaaf;
+}
+
+/* ---------------- PROFILE INFO --------- */
+
+.browserRouter-container {
+    box-sizing: border-box;
+    width: 800px;
+    border: 2px solid #4138e0;
+    box-shadow: 10px 10px 16px -4px rgba(18, 17, 35, 0.66);
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.profile-container {
+    display: flex;
+    border-radius: 10px;
+}
+
+.profile-container img {
+    width: 140px;
+    height: 140px;
+}
+
+.profile-container .dark-side {
+    padding-top: 50px;
+}
+
+.dark-side .profilepic {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+/* ---------------- BIO EDITOR --------- */
+
+.bioEditor-container {
+    text-align: center;
+    color: #c7c4d5;
+}
+
+.biolink-add {
+    color: #c7c4d5;
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid #4138e0;
+    margin: 0 auto;
+    width: 300px;
+    height: 50px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    padding-top: 13px;
+}
+
+.biolink-add:hover,
+.biolink-add:focus {
+    border: 2px solid #f56f6c;
 }
