@@ -24,7 +24,7 @@ export default class App extends React.Component {
         this.setState({ bio: newBio });
     }
     render() {
-        console.log("state: ", this.state);
+        console.log("state in render: ", this.state);
         if (!this.state.id) {
             return null;
         }
@@ -49,10 +49,10 @@ export default class App extends React.Component {
                 <BrowserRouter>
                     <div className="browserRouter-container">
                         <Route
+                            exact
                             path="/"
                             render={props => {
                                 return (
-                                    // here will go Profile component with bioEditor
                                     <Profile
                                         id={this.state.id}
                                         first={this.state.first}
@@ -69,7 +69,16 @@ export default class App extends React.Component {
                                 );
                             }}
                         />
-                        <Route path="/user/:id" component={OtherProfile} />
+                        <Route
+                            path="/user/:id"
+                            render={props => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
 

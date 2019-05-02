@@ -2,7 +2,6 @@ import React from "react";
 import ProfilePic from "./profilepic";
 import BioEditor from "./BioEditor";
 import { Link } from "react-router-dom";
-import axios from "./axios";
 
 export default function(props) {
     return (
@@ -19,17 +18,12 @@ export default function(props) {
                     {props.last}
                 </p>
             </div>
-
-            {/* ...props */}
             <div className="light-side">
                 <BioEditor
                     first={props.first}
                     bio={props.bio}
                     setBio={props.setBio}
                 />
-                {/*<Link to="/welcome" className="logout-link">
-                LOG OUT
-            </Link>*/}
             </div>
         </div>
     );

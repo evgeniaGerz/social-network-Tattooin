@@ -120,7 +120,6 @@ app.post("/login", (req, res) => {
 
 app.get("/user", (req, res) => {
     db.getUserProfile(req.session.user.id).then(data => {
-        console.log("data in getUserProfile: ", data);
         res.json({
             id: data.rows[0].id,
             first: data.rows[0].first,
@@ -133,12 +132,21 @@ app.get("/user", (req, res) => {
 
 // ---------------- OTHER PROFILES ---------
 
-app.get("/user/:id/anything", function(req, res) {
-    // the route should be named different
+app.get("/user/:id/anything", (req, res) => {
     if (req.params.id == req.session.user.id) {
         res.json({
             redirect: true
         });
+    } else {
+        //console.log("req.params.id: ", req.params.id);
+        db.getUserProfile(req.params.id)
+            .then(data => {
+                console.log("data.rows in getUserProfile: ", data);
+                res.json(data.rows[0]);
+            })
+            .catch(err => {
+                console.log("error in getUserProfile: ", err);
+            });
     }
 });
 
@@ -167,7 +175,6 @@ app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
 app.post("/editBio", (req, res) => {
     db.updateBio(req.session.user.id, req.body.bio)
         .then(data => {
-            console.log("data in updateBio: ", data); // empty array rows[]
             res.json(data.rows[0]);
         })
         .catch(err => {

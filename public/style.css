@@ -328,12 +328,14 @@ h2 {
     margin: 0 auto;
 }
 
-.profile-container {
+.profile-container,
+.otherProfile-container {
     display: flex;
     border-radius: 10px;
 }
 
-.profile-container img {
+.profile-container img,
+.otherProfile-container img {
     width: 140px;
     height: 140px;
 }
@@ -371,4 +373,7 @@ h2 {
 .biolink-add:hover,
 .biolink-add:focus {
     border: 2px solid #f56f6c;
+}
+
+.otherProfile-container {
 }
