@@ -3,6 +3,7 @@ import axios from "./axios";
 
 export default class Uploader extends React.Component {
     constructor(props) {
+        console.log("props in uploader: ", props);
         super(props);
         this.state = {
             users_pic: ""
@@ -10,6 +11,7 @@ export default class Uploader extends React.Component {
         this.formPic;
         this.uploadPic = this.uploadPic.bind(this);
     }
+
     uploadPic(e) {
         e.preventDefault();
         console.log("Upload file");
@@ -32,6 +34,10 @@ export default class Uploader extends React.Component {
     render() {
         return (
             <div className="uploader">
+                <div
+                    className="hideUploader-container"
+                    onClick={this.props.hideUploader}
+                />
                 <form>
                     <h2>Want to change your profile image?</h2>
                     <input

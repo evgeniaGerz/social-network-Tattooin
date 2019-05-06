@@ -40,3 +40,48 @@ exports.updateBio = function updateBio(id, bio) {
     let params = [id, bio];
     return db.query(q, params);
 };
+
+/////////// Queries for the friendship table ///////////
+
+exports.sendFriendRequest = function sendFriendRequest(id, other_id) {
+    let q = `INSERT INTO friendship (sender_id, recipient_id)
+    VALUES ($1, $2) RETURNING *`;
+    let params = [id, other_id];
+    return db.query(q, params);
+};
+
+exports.getFriendStatus = function getFriendStatus(sender_id, recipient_id) {
+    let q = `SELECT * from friendship
+    WHERE ((sender_id = $1 AND recipient_id = $2)
+    OR (sender_id = $2 AND recipient_id = $1))`;
+    let params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+exports.acceptFriendship = function acceptFriendship(sender_id, recipient_id) {
+    let q = `UPDATE friendship SET accepted = true
+    WHERE ((sender_id = $1 AND recipient_id = $2)
+    OR (sender_id = $2 AND recipient_id = $1))
+    RETURNING accepted`;
+    let params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+exports.deleteFriendship = function deleteFriendship(sender_id, recipient_id) {
+    let q = `DELETE FROM friendship
+    WHERE ((sender_id = $1 AND recipient_id = $2)
+    OR (sender_id = $2 AND recipient_id = $1))`;
+    let params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+// may be I will rename it
+exports.getFriendList = function getFriendList(recipient_id, sender_id) {
+    let q = `SELECT users.id, first, last, users_pic, accepted
+        FROM friendship JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
+    let params = [recipient_id, sender_id];
+    return db.query(q, params);
+};

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "./axios";
 import ProfilePic from "./profilepic";
 import BioEditor from "./bioEditor";
-//import FriendButton from "./FriendButton";
+import FriendButton from "./FriendButton";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class OtherProfile extends React.Component {
     }
     componentDidMount() {
         //var self = this;
-        console.log("this.props in OtherProfile: ", this.props);
+        //console.log("this.props in OtherProfile: ", this.props);
         let id = this.props.match.params.id;
 
         axios.get("/user/" + id + "/anything").then(({ data }) => {
@@ -46,6 +46,10 @@ export default class OtherProfile extends React.Component {
                         Profile of {this.state.first} {this.state.last}
                     </h2>
                     <p>{this.state.bio}</p>
+                    <FriendButton
+                        id={this.props.match.params.id}
+                        loggedId={this.props.loggedId}
+                    />
                 </div>
             </div>
         );

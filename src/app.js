@@ -73,6 +73,7 @@ export default class App extends React.Component {
                             path="/user/:id"
                             render={props => (
                                 <OtherProfile
+                                    loggedId={this.state.id}
                                     key={props.match.url}
                                     match={props.match}
                                     history={props.history}
@@ -85,6 +86,11 @@ export default class App extends React.Component {
                 {this.state.isUploaderVisible && (
                     <Uploader
                         setImage={users_pic => this.setState({ users_pic })}
+                        hideUploader={() =>
+                            this.setState({
+                                isUploaderVisible: false
+                            })
+                        }
                     />
                 )}
             </div>

@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
 
 // ---------------- ROUTES ----------------
 
-// ---------------- REGISTER PAGE ---------
+// ---------------- REGISTER PAGE ----------------
 app.get("/welcome", (req, res) => {
     console.log("req.session: ", req.session);
     if (req.session.user) {
@@ -94,7 +94,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-// ---------------- LOGIN PAGE ---------
+// ---------------- LOGIN PAGE ----------------
 
 app.post("/login", (req, res) => {
     console.log("req.session.user: ", req.session.user);
@@ -116,7 +116,7 @@ app.post("/login", (req, res) => {
     });
 });
 
-// ---------------- PROFILE PAGE ---------
+// ---------------- PROFILE PAGE ----------------
 
 app.get("/user", (req, res) => {
     db.getUserProfile(req.session.user.id).then(data => {
@@ -130,7 +130,7 @@ app.get("/user", (req, res) => {
     });
 });
 
-// ---------------- OTHER PROFILES ---------
+// ---------------- OTHER PROFILES ----------------
 
 app.get("/user/:id/anything", (req, res) => {
     if (req.params.id == req.session.user.id) {
@@ -150,7 +150,7 @@ app.get("/user/:id/anything", (req, res) => {
     }
 });
 
-// ---------------- UPLOAD PROFILE PICTURE ---------
+// ---------------- UPLOAD PROFILE PICTURE ----------------
 
 app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     const url = config.s3Url + req.file.filename;
@@ -171,7 +171,7 @@ app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     }
 });
 
-// ---------------- EDIT BIO IN PROFILE ---------
+// ---------------- EDIT BIO IN PROFILE ----------------
 app.post("/editBio", (req, res) => {
     db.updateBio(req.session.user.id, req.body.bio)
         .then(data => {
@@ -182,12 +182,57 @@ app.post("/editBio", (req, res) => {
         });
 });
 
+// ---------------- CHECK THE FRIENDSHIP STATUS ----------------
+app.get("/friendstatus/check/:id", (req, res) => {
+    //console.log("req.session.user.id: ", req.session.user.id);
+    //console.log("req.params.id: ", req.params.id);
+    db.getFriendStatus(req.session.user.id, req.params.id)
+        .then(results => {
+            console.log("results of getFriendStatus: ", results);
+            res.json(results.rows[0]);
+        })
+        .catch(err => {
+            console.log("error in getFriendStatus: ", err);
+        });
+});
+
+// ---------------- SEND A FRIEND REQUEST ----------------
+app.post("/friendstatus/send/:id", (req, res) => {
+    db.sendFriendRequest(req.session.user.id, req.params.id).then(results => {
+        console.log("results of sendFriendRequest: ", results);
+        res.json(results);
+    });
+});
+
+// ---------------- DELETE A FRIEND REQUEST ----------------
+app.post("/friendstatus/delete/:id", (req, res) => {
+    console.log("start the route");
+    db.deleteFriendship(req.session.user.id, req.params.id)
+        .then(results => {
+            console.log("results of deleteFriendship: ", results);
+            res.json(results);
+        })
+        .catch(err => {
+            console.log("catch here", err);
+        });
+});
+
+// ---------------- ACCEPT A FRIEND REQUEST ----------------
+app.post("/friendstatus/accept/:id", (req, res) => {
+    db.acceptFriendship(req.session.user.id, req.params.id).then(results => {
+        console.log("results of acceptFriendship: ", results);
+        res.json(results);
+    });
+});
+
+// have I forgotten any post request?
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
 });
 
-// ----- this route has to be after all other routes -----
+// ---------------- this route has to be after all other routes ----------------
 app.get("*", function(req, res) {
     if (!req.session.user) {
         res.redirect("/welcome");
