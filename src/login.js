@@ -7,7 +7,6 @@ import Error from "./error";
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
-        console.log("this.props in login: ", this.props);
         this.state = {
             email: "",
             password: "",
@@ -28,7 +27,6 @@ export default class Login extends React.Component {
                     password: this.state.password
                 })
                 .then(data => {
-                    console.log("data in post /login: ", data);
                     location.replace("/");
                 })
                 .catch(err => {

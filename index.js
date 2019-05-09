@@ -7,6 +7,10 @@ const csurf = require("csurf");
 const db = require("./db");
 const { hashPassword, checkPassword } = require("./src/bcrypt");
 
+/* ---------------- SERVER SIDE SOCKET CONFIGURATIONS ----------------
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+*/
 // ---------------- REQUIRES FOR IMAGES UPLOAD ----------------
 var multer = require("multer");
 var uidSafe = require("uid-safe");
@@ -46,7 +50,14 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+/* socket config
 
+app.use(cookieSessionMiddleware);
+/*
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, )
+})
+*/
 app.use(
     cookieSession({
         maxAge: 1000 * 60 * 60 * 24 * 14,
@@ -66,7 +77,6 @@ app.use(function(req, res, next) {
 
 // ---------------- REGISTER PAGE ----------------
 app.get("/welcome", (req, res) => {
-    console.log("req.session: ", req.session);
     if (req.session.user) {
         res.redirect("/");
     } else {
@@ -97,7 +107,7 @@ app.post("/register", (req, res) => {
 // ---------------- LOGIN PAGE ----------------
 
 app.post("/login", (req, res) => {
-    console.log("req.session.user: ", req.session.user);
+    console.log("req.session: ", req.session);
     db.getUser(req.body.email).then(data => {
         if (data.length != 0) {
             checkPassword(req.body.password, data.rows[0].password).then(
@@ -141,7 +151,6 @@ app.get("/user/:id/anything", (req, res) => {
         //console.log("req.params.id: ", req.params.id);
         db.getUserProfile(req.params.id)
             .then(data => {
-                console.log("data.rows in getUserProfile: ", data);
                 res.json(data.rows[0]);
             })
             .catch(err => {
@@ -154,13 +163,9 @@ app.get("/user/:id/anything", (req, res) => {
 
 app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     const url = config.s3Url + req.file.filename;
-    console.log("req.file: ", req.file);
-    console.log("req.body: ", req.body);
-
     if (req.file) {
         db.updateUserPic(req.session.user.id, url)
             .then(data => {
-                console.log("data in updateUserPic: ", data);
                 res.json(data);
             })
             .catch(err => {
@@ -225,13 +230,54 @@ app.post("/friendstatus/accept/:id", (req, res) => {
     });
 });
 
-// have I forgotten any post request?
+// ---------------- LIST of FRIENDS ----------------
+app.get("/friends/something", (req, res) => {
+    db.getFriendList(req.session.user.id, req.params.id).then(friends => {
+        console.log("req.session.user.id: ", req.session.user.id);
+        console.log("index.js friends: ", friends);
+        res.json(friends.rows);
+    });
+});
 
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
 });
 
+/* ---------------- SOCKET ----------------
+io.on("connection", socket => {
+    console.log("connected socket with id: ", socket.id);
+
+    socket.emit("welcome", {
+        message: "nice to meet you"
+    });
+
+    socket.on("disconnect", function() {
+        console.log("disconnected socket with id: ", socket.id);
+    });
+
+    /*
+    socket.on("newChatMessage", data => {
+        // insert the user id and chat message  - if using DB method
+        // if using array method - push chat message into array
+        // as a result we'' have to query db to get info
+        // about the user who posted the message (their first, last, profile pic etc) - just simple SELECT by id
+        // NEXT STEP: get user's first, last, profile pic  and chat message into Redux
+        // we need create an object that will store the user's first, last etc.
+        // And this object needs to look like the other object in the chat array in Redux
+        let myNewChat = {
+            first: results.rows[0].first,
+            last: results.rows[0].last,
+            id: socket.request.session.user.id,
+            timestamp: result.rows[0].timestamp,
+            chat: data
+        };
+        // send another socket message to the Frontend
+        socket.broadcast("chatMessageForRedux", myNewChat);
+    });
+
+});
+*/
 // ---------------- this route has to be after all other routes ----------------
 app.get("*", function(req, res) {
     if (!req.session.user) {
@@ -244,3 +290,15 @@ app.get("*", function(req, res) {
 app.listen(8080, function() {
     console.log("I'm listening.");
 });
+
+/*
+all of our backend socket code will go here
+as soon as someone logins / registers, the code here will run
+
+io.on('connection', socket => {
+    console.log("I'm listening.");
+    every single broadcast, emit, sockets.emit, socket.io will go here
+
+})
+
+*/

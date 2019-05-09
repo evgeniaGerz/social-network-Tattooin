@@ -76,12 +76,11 @@ exports.deleteFriendship = function deleteFriendship(sender_id, recipient_id) {
 };
 
 // may be I will rename it
-exports.getFriendList = function getFriendList(recipient_id, sender_id) {
+exports.getFriendList = function getFriendList(id) {
     let q = `SELECT users.id, first, last, users_pic, accepted
         FROM friendship JOIN users
         ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
         OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
         OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
-    let params = [recipient_id, sender_id];
-    return db.query(q, params);
+    return db.query(q, [id]);
 };

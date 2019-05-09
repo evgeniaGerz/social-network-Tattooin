@@ -11,8 +11,9 @@ body {
     padding: 0;
     background-color: #312f3c;
     background: url("/img/bg.jpg") no-repeat;
-    background-position: center top;
-    background-size: 100% auto;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
     font-family: "Alfa Slab One", cursive;
     font-family: "Exo 2", sans-serif;
 }
@@ -297,6 +298,11 @@ h2 {
     padding: 30px;
     text-align: center;
 }
+
+.uploader img {
+    margin-bottom: 60px;
+}
+
 .hideUploader-container {
     width: 35px;
     height: 35px;
@@ -367,17 +373,18 @@ h2 {
 
 .browserRouter-container {
     box-sizing: border-box;
-    width: 800px;
-    border: 2px solid #4138e0;
-    box-shadow: 10px 10px 16px -4px rgba(18, 17, 35, 0.66);
-    border-radius: 10px;
+    width: 1150px;
     margin: 0 auto;
 }
 
 .profile-container,
 .otherProfile-container {
     display: flex;
+    border: 2px solid #4138e0;
+    box-shadow: 10px 10px 16px -4px rgba(18, 17, 35, 0.66);
     border-radius: 10px;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .profile-container img,
@@ -448,4 +455,114 @@ h2 {
 
 .friend-button-container .unfriend-button {
     background-color: #c7c4d5;
+}
+
+.friendlist-link {
+    box-sizing: border-box;
+    color: #65aaaf;
+    font-family: "Exo 2", sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 2px solid #65aaaf;
+    border-radius: 3px;
+    padding: 12px;
+    display: block;
+    width: 220px;
+    height: 50px;
+    text-align: center;
+    position: absolute;
+    content: "";
+    bottom: 20px;
+    left: calc(50% - 110px);
+}
+
+.friendlist-link:hover,
+.friendlist-link:focus {
+    border: 2px solid #f56f6c;
+}
+
+.friends-container h2,
+.wannabies-container h2 {
+    font-family: "Alfa Slab One", cursive;
+    font-size: 24px;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #f56f6c;
+}
+
+.friend-card {
+    border: 2px solid #4138e0;
+    border-radius: 3px;
+    width: 300px;
+    height: 450px;
+    background: rgba(18, 17, 35, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+.acceptedfriends-container,
+.wannabies-container {
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.user {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #f56f6c;
+    margin: 0 auto;
+}
+
+.user img {
+    width: 100%;
+}
+
+.friends-names {
+    color: #f56f6c;
+    margin-bottom: 100px;
+}
+
+.unfriend-button {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid #4138e0;
+    background-color: transparent;
+    margin: 0 auto;
+    width: 200px;
+    height: 50px;
+    color: #c7c4d5;
+    border-radius: 3px;
+}
+
+.friend-button {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid #65aaaf;
+    background-color: transparent;
+    color: #65aaaf;
+}
+
+.unfriend-button:hover,
+.unfriend-button:focus {
+    border: 2px solid #f56f6c;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 240px;
+    margin: 0 auto;
+}
+
+.buttons-container button {
+    width: 110px;
+    height: 50px;
+    margin: 0;
 }

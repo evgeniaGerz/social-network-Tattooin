@@ -24,6 +24,9 @@ export default function(props) {
                     bio={props.bio}
                     setBio={props.setBio}
                 />
+                <Link className="friendlist-link" to="/friends">
+                    Friend List
+                </Link>
             </div>
         </div>
     );

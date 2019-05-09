@@ -6,16 +6,8 @@ import { Link } from "react-router-dom";
 import Error from "./error";
 
 export default class Registration extends React.Component {
-    // pop in the error message ("Smth went wrong")
     constructor(props) {
         super(props);
-        // super allows to access the constructor method of the parent class
-        // Use super(props), when nedd to access this.props in constructor
-        //console.log("this.props in register: ", this.props); // component: "Registration"
-        // passing or not passing props to super has no effect on later uses of this.props outside constructor.
-        // That is render, shouldComponentUpdate, or event handlers always have access to it.
-
-        // this will be updated after using an onInput event handleInput
         this.state = {
             first: "",
             last: "",
@@ -27,11 +19,9 @@ export default class Registration extends React.Component {
         this.handleInput = this.handleInput.bind(this);
     }
     handleInput(e) {
-        // changes the value of state property and it's value
         this.setState({ [e.target.name]: e.target.value });
     }
     submit(e) {
-        //ReactDOM.render(<Error />, document.querySelector(".error"));
         // to prevent the form from doing the post request on it's own
         e.preventDefault();
         axios
@@ -42,14 +32,11 @@ export default class Registration extends React.Component {
                 password: this.state.password
             })
             .then(data => {
-                console.log("data: ", data);
                 if (data.success) {
                     location.replace("/"); // instead of redirecting
                 } else {
-                    //location.replace("/welcome");
                     console.log("something wrong?");
                 }
-                //location.replace("/");
             })
             .catch(err => {
                 ReactDOM.render(<Error />, document.querySelector(".error"));

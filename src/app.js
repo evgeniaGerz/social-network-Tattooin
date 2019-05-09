@@ -6,6 +6,8 @@ import Profile from "./profile";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile";
 import BioEditor from "./bioEditor";
+import Friends from "./friends";
+import Chat from "./chat";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,7 +17,6 @@ export default class App extends React.Component {
     }
     // is invoked immediately after a component is mounted
     componentDidMount() {
-        console.log("mounted");
         axios.get("/user").then(({ data }) => {
             this.setState(data); // in state there will be a user id
         });
@@ -24,7 +25,6 @@ export default class App extends React.Component {
         this.setState({ bio: newBio });
     }
     render() {
-        console.log("state in render: ", this.state);
         if (!this.state.id) {
             return null;
         }
@@ -80,6 +80,12 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
+                        <Route
+                            exact
+                            path="/friends"
+                            render={() => <Friends />}
+                        />
+                        <Route path="/chat" component={Chat} />
                     </div>
                 </BrowserRouter>
 
