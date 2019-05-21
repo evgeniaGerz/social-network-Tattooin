@@ -10,9 +10,9 @@ class Chat extends React.Component {
 
     handleInput(e) {
         if (e.which === 13) {
-            console.log("e.target.value: ", e.target.value);
-            var newChat = e.target.value;
-            socket.emit("newChatMessage", newChat);
+            let newChat = e.target.value;
+            socket.emit("newChatMessages", newChat);
+            e.target.value = "";
             console.log("myDiv: ", this.myDiv); // refers to the <div className="chat-container">
             this.myDiv.scroll = "1px solid black";
         }
@@ -24,17 +24,34 @@ class Chat extends React.Component {
     }
 
     render() {
+        console.log("this.props in chat.js: ", this.props);
+        if (!this.props.chatMessages) {
+            return null;
+        }
         return (
-            <div>
-                <h1>Chat!</h1>
+            <div className="chat-container">
+                <h1>Chat</h1>
                 <div
                     className="chat-container"
                     ref={chatsContainer => (this.myDiv = chatsContainer)}
                 >
-                    <p>my chats</p>
-                    <p>my chats</p>
-                    <p>my chats</p>
-                    <p>my chats</p>
+                    {this.props.chatMessages.map((message, i) => {
+                        console.log("message: ", message);
+                        return (
+                            <div className="message-container" key={i}>
+                                <div className="img-container">
+                                    <img src={message.users_pic} />
+                                </div>
+                                <p>
+                                    <strong>
+                                        {message.first} {message.last}
+                                    </strong>
+                                    <br />
+                                    {message.chat}
+                                </p>
+                            </div>
+                        );
+                    })}
                 </div>
                 <textarea onKeyDown={this.handleInput} />
                 <button type="button" />
@@ -44,7 +61,11 @@ class Chat extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {};
+    console.log("state in chat's mapStateToProps:", state);
+
+    return {
+        chatMessages: state.chatMessages
+    };
 };
 
 export default connect(mapStateToProps)(Chat);

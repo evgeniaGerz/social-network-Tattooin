@@ -7,10 +7,10 @@ const csurf = require("csurf");
 const db = require("./db");
 const { hashPassword, checkPassword } = require("./src/bcrypt");
 
-/* ---------------- SERVER SIDE SOCKET CONFIGURATIONS ----------------
+// ---------------- SERVER SIDE SOCKET CONFIGURATIONS ----------------
 const server = require("http").Server(app);
 const io = require("socket.io")(server, { origins: "localhost:8080" });
-*/
+
 // ---------------- REQUIRES FOR IMAGES UPLOAD ----------------
 var multer = require("multer");
 var uidSafe = require("uid-safe");
@@ -50,20 +50,27 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
-/* socket config
+// SOCKET COOKIE - start
+const cookieSessionMiddleware = cookieSession({
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    secret: "I'm always angry"
+});
 
 app.use(cookieSessionMiddleware);
-/*
+
 io.use(function(socket, next) {
-    cookieSessionMiddleware(socket.request, )
-})
-*/
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+// SOCKET COOKIE - end
+
+/*
 app.use(
     cookieSession({
         maxAge: 1000 * 60 * 60 * 24 * 14,
         secret: "I'm always angry"
     })
 );
+*/
 app.use(require("body-parser").json());
 
 app.use(csurf()); // has to be after cookieSession and body-parser, adds a method retuns a token
@@ -233,8 +240,6 @@ app.post("/friendstatus/accept/:id", (req, res) => {
 // ---------------- LIST of FRIENDS ----------------
 app.get("/friends/something", (req, res) => {
     db.getFriendList(req.session.user.id, req.params.id).then(friends => {
-        console.log("req.session.user.id: ", req.session.user.id);
-        console.log("index.js friends: ", friends);
         res.json(friends.rows);
     });
 });
@@ -242,6 +247,54 @@ app.get("/friends/something", (req, res) => {
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
+});
+
+// ---------------- this route has to be after all other routes ----------------
+app.get("*", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
+server.listen(8080, function() {
+    console.log("I'm listening.");
+});
+
+// ---------------- SOCKET ----------------
+//let onlineUser = [];
+let chatMessages = [];
+
+io.on("connection", socket => {
+    console.log("socket.request.session: ", socket.request.session);
+    console.log("connected socket with id: ", socket.id);
+
+    socket.emit("chatMessages", chatMessages);
+
+    socket.on("newChatMessage", data => {
+        console.log("data in newChatMessage", data);
+        //console.log("req.session.user", req.session.user);
+        let userId = socket.request.session.user.id;
+
+        db.insertNewMessage(userId, data).then(({ results }) => {
+            console.log("results: ", results);
+            //let message = results.rows[0].id;
+            //let time = results.rows[0].created_at;
+
+            db.getAllMessages().then(data => {
+                console.log("data in getAllMessages: ", data);
+                let newChatMessageObj = {
+                    first: socket.request.session.user.first,
+                    last: socket.request.session.user.last,
+                    users_pic: user.users_pic,
+                    message: data,
+                    id: userId
+                };
+                io.socket.emit("newChatMessage", newChatMessageObj);
+            });
+        });
+    });
 });
 
 /* ---------------- SOCKET ----------------
@@ -277,28 +330,4 @@ io.on("connection", socket => {
     });
 
 });
-*/
-// ---------------- this route has to be after all other routes ----------------
-app.get("*", function(req, res) {
-    if (!req.session.user) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
-});
-
-app.listen(8080, function() {
-    console.log("I'm listening.");
-});
-
-/*
-all of our backend socket code will go here
-as soon as someone logins / registers, the code here will run
-
-io.on('connection', socket => {
-    console.log("I'm listening.");
-    every single broadcast, emit, sockets.emit, socket.io will go here
-
-})
-
 */

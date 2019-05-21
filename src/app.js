@@ -5,9 +5,9 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile";
-import BioEditor from "./bioEditor";
 import Friends from "./friends";
 import Chat from "./chat";
+import Online from "./online";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -86,6 +86,7 @@ export default class App extends React.Component {
                             render={() => <Friends />}
                         />
                         <Route path="/chat" component={Chat} />
+                        <Route path="/online" component={Online} />
                     </div>
                 </BrowserRouter>
 

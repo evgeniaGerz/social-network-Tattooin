@@ -89,7 +89,7 @@ class Friends extends React.Component {
 }
 
 const mapStateToProps = function(state) {
-    console.log("state in mapStateToProps:", state);
+    console.log("state in friends' mapStateToProps:", state);
     // state refers to the global REDUX state
     return {
         friends:

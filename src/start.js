@@ -9,8 +9,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import reducer from "./reducers";
-
-//import { init } from "./socket";
+import { init } from "./socket";
 
 const store = createStore(
     reducer,
@@ -24,15 +23,12 @@ if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
     //user is logged in
-    //init(store);
+    init(store);
     elem = (
         <Provider store={store}>
             <App />
         </Provider>
-        //init(store);
     );
-    //elem = <img className="logo" src="/img/logo.png" />;
 }
 
-//
 ReactDOM.render(elem, document.querySelector("main"));

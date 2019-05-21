@@ -13,7 +13,8 @@ exports.addUser = function addUser(
     users_pic,
     bio
 ) {
-    let q = `INSERT INTO users (first, last, email, password, users_pic, bio) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    let q = `INSERT INTO users (first, last, email, password, users_pic, bio)
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
     let params = [first, last, email, password, users_pic, bio];
     return db.query(q, params);
 };
@@ -83,4 +84,20 @@ exports.getFriendList = function getFriendList(id) {
         OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
         OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
     return db.query(q, [id]);
+};
+
+exports.insertNewMessage = function insertNewMessage(sender_id, message) {
+    let q = `INSERT INTO chats (sender_id, message) VALUES ($1, $2) RETURNING *`;
+    let params = [sender_id, message];
+    return db.query(q, params);
+};
+
+exports.getAllMessages = function getAllMessages() {
+    let q = `SELECT chats.sender_id, chats.message, chat.created_at
+        users.id, users.first, users.last, users.users_pic
+        FROM chats JOIN users
+        ON chats.sender_id = users.id
+        ORDER by chats.created_at DESC
+        LIMIT 10`;
+    return db.query(q);
 };
