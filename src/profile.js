@@ -1,6 +1,6 @@
 import React from "react";
 import ProfilePic from "./profilepic";
-import BioEditor from "./BioEditor";
+import BioEditor from "./bioEditor";
 import { Link } from "react-router-dom";
 
 export default function(props) {

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "./axios";
 import ProfilePic from "./profilepic";
 import BioEditor from "./bioEditor";
-import FriendButton from "./FriendButton";
+import FriendButton from "./friendButton";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
