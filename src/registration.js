@@ -31,9 +31,10 @@ export default class Registration extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             })
-            .then(data => {
+            .then(({ data }) => {
+                console.log("data: ", data);
                 if (data.success) {
-                    location.replace("/"); // instead of redirecting
+                    location.replace("/");
                 } else {
                     console.log("something wrong?");
                 }

@@ -95,6 +95,7 @@ app.post("/register", (req, res) => {
     hashPassword(req.body.password).then(hash => {
         db.addUser(req.body.first, req.body.last, req.body.email, hash)
             .then(results => {
+                console.log("results: ", results);
                 req.session.user = {
                     id: results.rows[0].id,
                     first: req.body.first,
@@ -102,7 +103,7 @@ app.post("/register", (req, res) => {
                     email: req.body.email,
                     password: hash
                 };
-                res.json({ success: true }); // or success: true
+                res.json({ success: true });
                 res.redirect("/");
             })
             .catch(err => {

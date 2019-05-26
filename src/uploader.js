@@ -14,22 +14,20 @@ export default class Uploader extends React.Component {
 
     uploadPic(e) {
         e.preventDefault();
-        //console.log("e.target.form[0].files[0]: ", e.target.form[0].files[0]);
-        //var file = e.target.form[0].files[0];
-
         var formData = new FormData();
         formData.append("file", this.formPic);
-        //console.log("formData: ", formData);
+        console.log("formData: ", formData);
         axios
             .post("/uploadPic", formData)
-            .then(data => {
+            .then(({ data }) => {
                 console.log("data in post /uploadPic: ", data);
-                console.log("this.state.users_pic", this.state.users_pic);
-                console.log("data.users_pic: ");
+                console.log("this.formPic: ", this.formPic);
                 this.props.setImage(data.users_pic);
+                this.props.hideUploader(); // funkt
                 this.setState({
                     users_pic: this.formPic
                 });
+                console.log("this.state.users_pic", this.state.users_pic); // exists
             })
             .catch(err => {
                 console.log("Error in axios.post('/uploadPic): ", err);
@@ -51,7 +49,7 @@ export default class Uploader extends React.Component {
                         }}
                         type="file"
                         name="file"
-                        placeholder="file"
+                        placeholder="Choose file"
                     />
                     <button onClick={this.uploadPic}>Upload pic</button>
                 </form>
