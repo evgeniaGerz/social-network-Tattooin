@@ -3,7 +3,7 @@ import axios from "./axios";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherProfile";
 import Friends from "./friends";
 import Chat from "./chat";
@@ -32,9 +32,16 @@ export default class App extends React.Component {
             <div className="main-container">
                 <div className="header">
                     <div className="logo">
-                        <img src="/img/logo.png" width="70" height="70" />
+                        <a className="header-link" href="/">
+                            <img src="/img/logo.png" width="70" height="70" />
+                        </a>
                     </div>
-                    <h1>TattooIn</h1>
+                    <a className="header-link" href="/friends">
+                        FRIENDS
+                    </a>
+                    <a className="header-link" href="/">
+                        PROFILE
+                    </a>
 
                     <ProfilePic
                         id={this.state.id}
