@@ -32,7 +32,7 @@ exports.getUserProfile = function getUserProfile(id) {
 };
 
 exports.updateUserPic = function updateUserPic(id, users_pic) {
-    let q = `UPDATE users SET users_pic = $2 WHERE id = $1`;
+    let q = `UPDATE users SET users_pic = $2 WHERE id = $1 RETURNING users_pic`;
     let params = [id, users_pic];
     return db.query(q, params);
 };

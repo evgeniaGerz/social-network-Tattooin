@@ -174,7 +174,8 @@ app.post("/uploadPic", uploader.single("file"), s3.upload, function(req, res) {
     if (req.file) {
         db.updateUserPic(req.session.user.id, url)
             .then(data => {
-                res.json(data);
+                //console.log("data in updateUserPic: ", data);
+                res.json(data.rows[0]);
             })
             .catch(err => {
                 console.log("errror in updateUserPic: ", err);
